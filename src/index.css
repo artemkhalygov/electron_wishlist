@@ -1,0 +1,10 @@
+body {
+  font-family: Helvetica, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+  margin: auto;
+  padding: 2rem;
+}
+
+:root {
+  --text-main: #474444;
+}
