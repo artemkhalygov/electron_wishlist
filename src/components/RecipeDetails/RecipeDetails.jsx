@@ -1,12 +1,17 @@
-import React from 'react'
-import { Button, CircularProgress, Stack, Typography, Rating, Box, Chip, IconButton } from "@mui/material";
+import React, { useState } from 'react'
+import { Button, CircularProgress, Stack, Typography, Rating, Box, Chip, IconButton, ButtonBase } from "@mui/material";
 import { NavLink, useParams,useNavigate } from 'react-router-dom';
 import useRecipe from '../../api/useRecipe';
 import { Favorite, HeartBroken } from '@mui/icons-material';
 import { useWishlist } from '../../WishlistContext.jsx';
+import { useDialog } from '../../dialogContext/DialogContext.jsx';
+
+import { viewRecipeDetails, viewRecipePicture } from './dialogs.jsx'
+import SubsribtionForm from './SubsribtionForm.jsx';
 
 export default function RecipeDetails() {
   const { recipeId } = useParams();
+  const [openDialog] = useDialog()
   const { data, isLoading } = useRecipe(recipeId)
   const navigate = useNavigate();
   const { wishlist, addToWishlist, isInWishlist, removeFromWishlist } = useWishlist()
@@ -20,16 +25,20 @@ export default function RecipeDetails() {
 
   return <Stack alignItems='flex-start'>
     <Stack flexDirection='row' gap={3} alignItems={'center'}>
-      <Box component='img' src={data.image} sx={{
-        width: '200px',
-        height: '200px',
-        borderRadius: '50%',
-        border: '4px solid var(--text-main)'
-      }}
-        />
+      <SubsribtionForm />
+      <ButtonBase onClick={() => openDialog(viewRecipePicture(data.image))}>
+          <Box component='img' src={data.image} sx={{
+              width: '200px',
+              height: '200px',
+              borderRadius: '50%',
+              border: '4px solid var(--text-main)'
+            }}
+          />
+        </ButtonBase>
         <Stack gap={2}>
+          <ButtonBase onClick={() => openDialog(viewRecipeDetails(data))}>
           <Typography variant='h4' component='h1'>{data.name}</Typography>
-
+          </ButtonBase>
         <Rating value={data.rating} readOnly />
         <Stack direction='row' gap={1}>
         {data.tags?.map((tag) => <Chip key={tag} label={tag} />)}

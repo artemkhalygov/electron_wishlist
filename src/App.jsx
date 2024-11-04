@@ -16,6 +16,7 @@ import RecipeDetails from "./components/RecipeDetails/RecipeDetails.jsx";
 import WishlistProvider from './WishlistContext.jsx';
 import WishlistPage from "./components/WishlistPage/WishlistPage.jsx";
 import TranslationProvider from "./TranslationContext.jsx";
+import DialogProvider from "./dialogContext/DialogContext.jsx";
 
 const queryClient = new QueryClient()
 function App() {
@@ -24,11 +25,13 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <TranslationProvider>
           <WishlistProvider>
-            <Routes>
-              <Route path="/" element={<RecipesList />} />
-              <Route path="/details/:recipeId" element={<RecipeDetails />} />
-              <Route path="/wishlist" element={<WishlistPage />} />
-            </Routes>
+            <DialogProvider>
+              <Routes>
+                <Route path="/" element={<RecipesList />} />
+                <Route path="/details/:recipeId" element={<RecipeDetails />} />
+                <Route path="/wishlist" element={<WishlistPage />} />
+              </Routes>
+            </DialogProvider>
           </WishlistProvider>
         </TranslationProvider>
       </QueryClientProvider>
